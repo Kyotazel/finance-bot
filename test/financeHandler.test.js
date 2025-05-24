@@ -60,4 +60,53 @@ describe("Finance Handler", () => {
     await handleFinanceCommand(msg, "/finance unknown");
     expect(msg.replies[0]).toMatch(/tidak dikenali/);
   });
+
+  test("should show monthly report", async () => {
+    const msg = mockMsg();
+    await handleFinanceCommand(msg, "/finance tambah pemasukan 1000 gaji");
+    await handleFinanceCommand(msg, "/finance tambah pengeluaran 200 makan");
+    const month = new Date().toISOString().slice(0, 7);
+    const msg2 = mockMsg();
+    await handleFinanceCommand(msg2, `/finance report ${month}`);
+    expect(msg2.replies[0]).toMatch(/Laporan Bulan/);
+    expect(msg2.replies[0]).toMatch(/Pemasukan/);
+    expect(msg2.replies[0]).toMatch(/Pengeluaran/);
+  });
+
+  test("should search transactions", async () => {
+    const msg = mockMsg();
+    await handleFinanceCommand(
+      msg,
+      "/finance tambah pemasukan 1000 gaji kantor"
+    );
+    await handleFinanceCommand(
+      msg,
+      "/finance tambah pengeluaran 200 makan siang"
+    );
+    const msg2 = mockMsg();
+    await handleFinanceCommand(msg2, "/finance search makan");
+    expect(msg2.replies[0]).toMatch(/Hasil Pencarian/);
+    expect(msg2.replies[0]).toMatch(/makan/);
+  });
+
+  test("should show stats", async () => {
+    const msg = mockMsg();
+    await handleFinanceCommand(msg, "/finance tambah pemasukan 1000 gaji");
+    await handleFinanceCommand(msg, "/finance tambah pengeluaran 200 makan");
+    const msg2 = mockMsg();
+    await handleFinanceCommand(msg2, "/finance stats");
+    expect(msg2.replies[0]).toMatch(/Statistik/);
+    expect(msg2.replies[0]).toMatch(/Pemasukan/);
+    expect(msg2.replies[0]).toMatch(/Pengeluaran/);
+  });
+
+  test("should export transactions as CSV", async () => {
+    const msg = mockMsg();
+    await handleFinanceCommand(msg, "/finance tambah pemasukan 1000 gaji");
+    await handleFinanceCommand(msg, "/finance tambah pengeluaran 200 makan");
+    const msg2 = mockMsg();
+    await handleFinanceCommand(msg2, "/finance export");
+    expect(msg2.replies[0]).toMatch(/CSV/);
+    expect(msg2.replies[0]).toMatch(/id,type,amount/);
+  });
 });
