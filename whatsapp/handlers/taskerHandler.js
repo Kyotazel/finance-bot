@@ -1,16 +1,19 @@
 const fs = require("fs");
 const path = require("path");
+const { DateTime } = require("luxon");
 const TASKS_PATH = path.join(__dirname, "../../data/task.json");
 
 /**
  * Add a new task
- * @param {Object} task - { date: string, time: string, title: string, description: string, chatId: string }
+ * @param {Object} task - { date: string, time: string, title: string, description: string, chatId: string, timezone?: string }
  * @description
  *   - date: Format 'YYYY-MM-DD'.
  *   - time: Format 24 jam 'HH:MM', misal '08:00', '18:30'.
  *   - title: Judul task.
  *   - description: Isi task.
  *   - chatId: WhatsApp chatId tujuan.
+ *   - timezone: (Optional) IANA timezone string, default 'Asia/Jakarta'.
+ * @returns {Object} The created task object.
  */
 function addTask(task) {
   let tasks = [];
@@ -23,6 +26,7 @@ function addTask(task) {
   }
   task.id = tasks.length ? Math.max(...tasks.map((t) => t.id || 0)) + 1 : 1;
   task.status = "pending";
+  if (!task.timezone) task.timezone = "Asia/Jakarta";
   tasks.push(task);
   fs.writeFileSync(TASKS_PATH, JSON.stringify(tasks, null, 2), "utf-8");
   return task;
@@ -61,9 +65,17 @@ function startTasker(client) {
     let changed = false;
     for (const task of tasks) {
       // Hanya kirim task yang status pending dan tanggal+jam sudah lewat atau sama dengan sekarang, dan belum pernah dikirim (_lastSent)
-      const now = new Date();
-      const taskDateTime = new Date(`${task.date}T${task.time}:00`);
-      if (task.status === "pending" && !task._lastSent && now >= taskDateTime) {
+      const now = DateTime.now().setZone(task.timezone || "Asia/Jakarta");
+      const taskDateTime = DateTime.fromFormat(
+        `${task.date} ${task.time}`,
+        "yyyy-MM-dd HH:mm",
+        { zone: task.timezone || "Asia/Jakarta" }
+      );
+      if (
+        task.status === "pending" &&
+        !task._lastSent &&
+        now >= taskDateTime
+      ) {
         try {
           await client.sendMessage(
             task.chatId,
@@ -72,7 +84,9 @@ function startTasker(client) {
           task._lastSent = `${task.date}${task.time}`;
           task.status = "done";
           changed = true;
-        } catch {}
+        } catch (err) {
+          console.error("Failed to send task reminder:", err);
+        }
       }
     }
     if (changed)
