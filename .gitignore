@@ -20,3 +20,8 @@ Thumbs.db
 
 # Jest coverage
 coverage/
+
+
+.github/
+.wwebjs_auth/
+.wwebjs_cache
