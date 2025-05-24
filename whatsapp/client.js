@@ -112,7 +112,10 @@ async function handleTaskCommand(msg, text) {
 
 const client = new Client({
   authStrategy: new LocalAuth({ clientId: "oktaclient" }),
-  puppeteer: { headless: true },
+  puppeteer: {
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  },
 });
 
 setupClientEvents(client);
