@@ -1,0 +1,21 @@
+2025/05/24-14:12:39.499 4d48 Reusing MANIFEST C:\self-project\finance-bot\.wwebjs_auth\session-oktaclient\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/05/24-14:12:39.499 4d48 Recovering log #225
+2025/05/24-14:12:39.525 4d48 Reusing old log C:\self-project\finance-bot\.wwebjs_auth\session-oktaclient\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000225.log 
+2025/05/24-14:12:41.334 1ebc Level-0 table #234: started
+2025/05/24-14:12:41.339 1ebc Level-0 table #234: 164496 bytes OK
+2025/05/24-14:12:41.340 1ebc Delete type=0 #225
+2025/05/24-14:12:41.340 1ebc Manual compaction at level-0 from '\x00'\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00(\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/05/24-14:12:42.835 73c8 Compacting 1@1 + 5@2 files
+2025/05/24-14:12:42.913 73c8 Generated table #235@1: 61419 keys, 2226542 bytes
+2025/05/24-14:12:42.946 73c8 Generated table #236@1: 3400 keys, 2158751 bytes
+2025/05/24-14:12:43.006 73c8 Generated table #237@1: 23236 keys, 2216037 bytes
+2025/05/24-14:12:43.063 73c8 Generated table #238@1: 43679 keys, 2179746 bytes
+2025/05/24-14:12:43.153 73c8 Generated table #239@1: 82582 keys, 1751640 bytes
+2025/05/24-14:12:43.153 73c8 Compacted 1@1 + 5@2 files => 10532716 bytes
+2025/05/24-14:12:43.154 73c8 compacted to: files[ 0 0 5 0 0 0 0 ]
+2025/05/24-14:12:43.154 73c8 Delete type=2 #227
+2025/05/24-14:12:43.154 73c8 Delete type=2 #228
+2025/05/24-14:12:43.155 73c8 Delete type=2 #229
+2025/05/24-14:12:43.155 73c8 Delete type=2 #230
+2025/05/24-14:12:43.155 73c8 Delete type=2 #231
+2025/05/24-14:12:43.155 73c8 Delete type=2 #234
